@@ -49,8 +49,9 @@ def update_topic_registrations():
 messages = [('dads', 'house'), ('wow', 'I think im dead'), ('HELP', 'send a message to my wife carla!'), ('that damned smile', 'i should never have trusted her')]
 
 def send_notification(topic):
-    title = random.choice(messages)[0]
-    body = random.choice(messages)[1]
+    message = random.choice(messages)
+    title = message[0]
+    body = message[1]
     message = messaging.Message(
         notification = messaging.Notification(
             title=title,
@@ -69,6 +70,7 @@ for topic in topics:
         delta_hours = int(23 / int(topic))
         message_roster[topic].append(  (19 + delta_hours * i) % 24 )
     print(message_roster[topic])
+    print(topic)
 
 def schedule_messages():
     tz = pytz.timezone("Australia/Melbourne")
@@ -77,6 +79,7 @@ def schedule_messages():
 
     for topic, hours in message_roster.items():
         if hour in hours:
+            print('send')
             #send message
             send_notification(topic)
 
